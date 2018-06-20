@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 /**
  * Header component
  */
-const Header = () => {
+const Header = ({onArchiveAll}) => {
   /**
    * Base CSS class
    * @returns {ReactElement}
@@ -14,6 +14,7 @@ const Header = () => {
   return (
     <div className={baseCls}>
       <Link to="/">MyTodos</Link>
+      <span className={'btn btn-xs btn-success top-archive'} onClick={onArchiveAll}>Archive all completed</span>
     </div>
   )
 };

@@ -1,12 +1,37 @@
 // Todo module.
 .todo {
   cursor: pointer;
+  min-height: 57px;
 
-  &--status-complete {
-    text-decoration: line-through;
+  * {
+    display: inline-block;
+    margin-right: 20px!important;
   }
-
+  input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 5px;
+  }
+  .todo-link {
+    font-size: 18px;
+    line-height: 23px;
+  }
+  &--status-complete {
+    .todo-link {
+      text-decoration: line-through;
+    }
+  }
+  &--status-archive {
+    opacity: 0.4;
+  }
   &--filtered {
     display: none;
+  }
+  .delete {
+    font-size: 25px;
+    position: relative;
+    top: 4px;
+    float: right;
   }
 }

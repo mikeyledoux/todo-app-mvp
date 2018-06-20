@@ -4,6 +4,7 @@ $green: #10bb07;
 $darkgray: #7b7b7b;
 $gray: #bababa;
 $lightgray: #e7e7e7;
+$red: #f00;
 
 // Application colors.
 $colors: (
@@ -13,5 +14,6 @@ $colors: (
   primary: $blue,
   darkgray: $darkgray,
   gray: $gray,
-  lightgray: $lightgray
+  lightgray: $lightgray,
+  red: $red
 );

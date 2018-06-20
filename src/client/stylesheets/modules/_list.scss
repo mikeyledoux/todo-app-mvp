@@ -3,5 +3,24 @@ ul,
 .list {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 15px;
+
+  li {
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+
+    div {
+      margin: 0 0 10px 0;
+    }
+    button {
+      padding: 5px;
+      font-size: 12px;
+      border-radius: 2px;
+      background-color: map-get($colors , $red);
+      border-color: map-get($colors, ui-dark);
+      color: map-get($colors, ui-light);
+      cursor: pointer;
+    }
+  }
 }

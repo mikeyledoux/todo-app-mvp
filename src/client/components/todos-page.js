@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { api, getApiPromise } from '../helpers/api';
+import { api } from '../helpers/api';
 import Button from './button';
 import Navbar from './navbar';
 import TodoForm from './todo-form';
@@ -13,11 +13,6 @@ import Todos from './todos';
  * @class
  */
 class TodosPage extends React.Component {
-  /**
-   * Base CSS class
-   * @static
-   */
-  static baseCls = 'todos-page'
 
   /**
    * Prop types
@@ -38,13 +33,16 @@ class TodosPage extends React.Component {
 
     this.state = {
       todos: [],
-      filterBy: props.params.filter,
+      filterBy: props.viewFilter,
     };
 
+    this.viewFilter = props.viewFilter;
     this.addTodo = this.addTodo.bind(this);
     this.postTodo = this.postTodo.bind(this);
     this.setFilterBy = this.setFilterBy.bind(this);
     this.updateTodos = this.updateTodos.bind(this);
+    this.completeAll = this.completeAll.bind(this);
+    this.baseCls = 'todos-page container';
   }
 
   /**
@@ -93,7 +91,18 @@ class TodosPage extends React.Component {
    * @param  {Array} todos - Array of todo objects
    */
   updateTodos(todos) {
+    todos = JSON.parse(todos);
     this.setState({ todos });
+    this.showActiveCount(this.state.todos);
+  }
+  showActiveCount(arr) {
+    return this.showCount = arr.filter(function(item){return item.status !=='complete' && item.status !=='archive'}).length
+  }
+  completeAll() {
+    let top = this;
+    api('PUT', { id: 0 }, function(resp) {
+      top.updateTodos(JSON.stringify(resp));
+    }, 'completeall');
   }
 
   /**
@@ -104,13 +113,14 @@ class TodosPage extends React.Component {
     return (
       <div className={this.baseCls}>
         <Navbar filterBy={this.state.filterBy} onClickFilter={this.setFilterBy} />
-
+        {this.showActiveCount(this.state.todos)} tasks remaining <Link onClick={this.completeAll} className={'completeLink'}>complete all</Link>
         <TodoForm onSubmit={this.addTodo} />
 
         <Todos
-          filterBy={this.state.filterBy}
+          filterBy={this.viewFilter}
           todos={this.state.todos}
           updateTodos={this.updateTodos}
+          completeAll={this.completeAll}
         />
       </div>
     );

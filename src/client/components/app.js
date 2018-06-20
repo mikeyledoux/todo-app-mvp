@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { api } from '../helpers/api';
 import Header from './header';
 
 /**
@@ -9,7 +9,7 @@ import Header from './header';
 const propTypes = {
   children: React.PropTypes.oneOfType([
     React.PropTypes.arrayOf(React.PropTypes.node),
-    React.PropTypes.node
+    React.PropTypes.node,
   ]),
 };
 
@@ -22,11 +22,20 @@ const App = ({ children }) => {
    * Base CSS class
    */
   const baseCls = 'app';
+  const updateTodos = todos => {
+    todos = JSON.parse(todos);
+    location.href="/archived";
+  };
+
+  const archiveAll = todo => {
+    api('PUT', { id: 0 }, function(resp) {
+      updateTodos(JSON.stringify(resp));
+    }, 'archiveall');
+  };
 
   return (
     <div className={baseCls}>
-      <Header />
-
+      <Header onArchiveAll={archiveAll} />
       {children}
     </div>
   );

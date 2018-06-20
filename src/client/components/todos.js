@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { api } from '../helpers/api';
 import Todo from './todo';
 
@@ -35,51 +34,25 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
    */
   const baseCls = 'todos';
 
-  /**
-   * Callback function to delete todo from todos collection
-   *
-   * @param  {object} json - Resulting JSON from fetch
-   */
-  const deleteTodo = json => {
-    const index = todos.findIndex(todo => {
-      return todo.id === json.id;
-    });
-
-    updateTodos(
-      [
-        ...todos.slice(0, index),
-        ...todos.slice(index + 1),
-      ]
-    );
-  }
-
-  /**
-   * Callback function to replace todo with results of fetching the todo PUT endpoint
-   *
-   * @param  {object} json - Resulting JSON from fetch
-   */
-  const putTodo = json => {
-    const index = todos.findIndex(todo => {
-      return todo.id === json.id;
-    });
-
-    updateTodos(
-      [
-        ...todos.slice(0, index),
-        json,
-        ...todos.slice(index + 1),
-      ]
-    );
-  }
-
-  /**
-   * Click handler for clicking on delete button
-   * Deletes todo
-   *
-   * @param {object} todo - Todo object
-   */
   const onClickDelete = todo => {
-    api('DELETE', todo, deleteTodo);
+    api('DELETE', todo, function(resp) {
+      updateTodos(JSON.stringify(resp));
+    });
+  };
+  const onClickComplete = todo => {
+    api('PUT', todo, function(resp) {
+      updateTodos(JSON.stringify(resp));
+    }, 'complete');
+  };
+
+  const onClickArchive = todo => {
+    if (todo.status != 'complete')
+      alert('Sorry, you can\'t delete incomplete todo\'s.');
+    else {
+      api('PUT', todo, function(resp) {
+        updateTodos(JSON.stringify(resp));
+      }, 'archive');
+    }
   };
 
   /**
@@ -106,11 +79,14 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
       let filtered;
       switch (filterBy) {
         case 'active':
-          filtered = todo.status === 'complete';
+          filtered = todo.status !== 'active';
           break;
         case 'completed':
           filtered = todo.status !== 'complete';
           break;
+        case 'archived':
+          filtered = todo.status !== 'archive';
+        break;
         default:
           filtered = false;
       }
@@ -120,7 +96,9 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
           key={todo.id}
           filtered={filtered}
           onClickDelete={onClickDelete.bind(this, todo)}
+          onClickComplete={onClickComplete.bind(this, todo)}
           onClickTodo={onClickTodo.bind(this, todo)}
+          onClickArchive={onClickArchive.bind(this, todo)}
           status={todo.status}
           text={todo.text}
         />

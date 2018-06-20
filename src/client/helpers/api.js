@@ -5,8 +5,8 @@
 * @param  {object} data - Todo object
 * @param  {function} cb - Callback function for returned data
 */
-export function api(method, data, cb) {
-  const promise = getApiPromise(method, data);
+export function api(method, data, cb, type) {
+  const promise = getApiPromise(method, data, type);
 
   promise.then(json => {
     if (typeof cb === 'function') {
@@ -25,10 +25,11 @@ export function api(method, data, cb) {
  *
  * @returns {promise} - Promise from the fetch request to the backend
  */
-export function getApiPromise(method, data) {
+export function getApiPromise(method, data, type) {
   let url = 'http://localhost:3000/todos';
   if (['DELETE', 'PUT'].indexOf(method) !== -1) {
-    url += `/${data.id}`;
+    let addType = (type && (type == "archive" || type == "complete" || type == "archiveall" || type == "completeall")) ? "/" + type : '';
+    url += `/${data.id}` + addType;
   }
 
   const options = {
@@ -41,7 +42,7 @@ export function getApiPromise(method, data) {
 
   if (data) {
     options.body = JSON.stringify({
-      data,
+      data
     });
   }
 

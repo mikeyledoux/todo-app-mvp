@@ -1,0 +1,11 @@
+// Form Module
+form {
+  padding: 15px;
+  input {
+    font-size: 14px;
+    padding: 8px;
+    min-width: 400px;
+    border-radius: 3px;
+    border: 1px solid map-get($colors, ui-dark);
+  }
+}

@@ -1,4 +1,13 @@
 // Header module
 .header {
   background-color: map-get($colors, primary);
+  padding: 20px;
+
+  a {
+    color: map-get($colors, ui-light);
+    text-decoration: none;
+  }
+  .top-archive {
+    float: right;
+  }
 }

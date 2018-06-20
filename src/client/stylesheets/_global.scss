@@ -1,9 +1,10 @@
 // Global layout.
 body {
   background: map-get($colors, ui-light);
+  font-family: Helvetica, Arial;
 }
 
-.container {
+html>.container {
   margin: 0 auto;
   max-width: 1000px;
   padding: 0 20px;
@@ -12,4 +13,7 @@ body {
 
 .display-none {
   display: none !important;
+}
+.completeLink {
+  cursor: pointer;
 }

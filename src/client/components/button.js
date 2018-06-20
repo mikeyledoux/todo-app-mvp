@@ -28,12 +28,10 @@ const Button = ({ text, onClick }) => {
   /**
    * Base CSS class
    */
-  const baseCls = 'button';
+  const baseCls = 'delete glyphicon glyphicon-remove';
 
   return (
-    <button className={baseCls} onClick={onClick}>
-      {text}
-    </button>
+    <span className={baseCls} onClick={onClick}></span>
   )
 };
 
